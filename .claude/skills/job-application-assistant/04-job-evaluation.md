@@ -16,9 +16,9 @@ How well do the required/preferred skills align with the candidate's capabilitie
 | 40-59 | Partial match, significant upskilling needed |
 | 0-39 | Fundamental mismatch |
 
-**Strong match areas:** [YOUR_PRIMARY_SKILLS]
-**Moderate match areas:** [YOUR_SECONDARY_SKILLS]
-**Weak match areas:** [SKILLS_YOU_LACK]
+**Strong match areas:** React.js, Next.js, JavaScript, TypeScript, Redux Toolkit/Zustand/React Query, Apollo GraphQL, Tailwind CSS, frontend architecture (micro-frontends, state management, data-layer design), accessibility (WCAG/ARIA), Jest
+**Moderate match areas:** NestJS, Prisma, TypeORM, RESTful & GraphQL APIs, PostgreSQL, MongoDB, Webpack, Docker, CI/CD (GitHub Actions)
+**Weak match areas:** deep backend architecture/system design, DevOps/SRE/infra, mobile (React Native), data/ML, non-JavaScript ecosystems
 
 ### 2. Experience Match (0-100)
 Does work history align with what they're looking for?
@@ -30,9 +30,9 @@ Does work history align with what they're looking for?
 | 40-59 | Adjacent experience, would need to make the case |
 | 0-39 | Unrelated experience |
 
-**Strong:** [YOUR_DIRECT_EXPERIENCE_DOMAINS]
-**Moderate:** [YOUR_ADJACENT_EXPERIENCE]
-**Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
+**Strong:** frontend architecture & frontend-lead roles; SaaS/HRM, EdTech, property/real-estate, real-time chat platforms; team leadership & mentoring
+**Moderate:** backend development (NestJS/Prisma, actively growing); CI/CD pipeline ownership; agency multi-project delivery
+**Entry-level:** pure backend roles, mobile development, DevOps/SRE
 
 ### 3. Behavioral/Culture Fit (0-100)
 Does the role and company culture match the behavioral profile?
@@ -47,9 +47,12 @@ Does the role and company culture match the behavioral profile?
 **Red flags to research:** Department disorganization, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
 
 ### 4. Location & Logistics (Pass/Fail + Notes)
-- Within commute range: PASS
-- Remote with occasional office: PASS
-- Requires relocation: FAIL (deal-breaker)
+This candidate runs a wide net - remote anywhere, Bangladesh anywhere, and onsite abroad WITH visa sponsorship.
+- Remote (any country / worldwide): PASS
+- Bangladesh (Dhaka, Chittagong, Narayanganj, or elsewhere), onsite/hybrid/remote: PASS
+- Onsite/hybrid abroad WITH visa sponsorship or relocation: PASS
+- Onsite/hybrid abroad WITHOUT visa sponsorship or relocation: FAIL (deal-breaker)
+- Visa/sponsorship status unclear: FLAG (investigate before applying)
 - Frequent international travel: FLAG (discuss with user)
 
 ### 5. Career Alignment & Motivation (0-100)
@@ -63,19 +66,19 @@ Does this role advance career goals and contain tasks that energize?
 | 0-39 | Dead end or backwards step |
 
 **Career goals:**
-- [YOUR_CAREER_GOAL_1]
-- [YOUR_CAREER_GOAL_2]
-- [YOUR_CAREER_GOAL_3]
+- Grow into senior/staff frontend or frontend-lead roles with architecture ownership
+- Expand into full-stack by deepening backend skills (NestJS, Prisma, GraphQL, system design)
+- Secure international remote roles (or visa-sponsored onsite) on global products
 
 **Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energize* you. Consider:
-- Tasks that energize: [YOUR_ENERGIZING_TASKS]
-- Tasks that drain: [YOUR_DRAINING_TASKS]
+- Tasks that energize: owning frontend architecture, building products from scratch, bridging frontend into backend, measurable performance/accessibility work, mentoring engineers, international/remote collaboration *[inferred]*
+- Tasks that drain: heavily siloed ticket-only work with no architecture input; pure maintenance with no new development *[inferred]*
 - Non-task factors: leadership style, department culture, company values, degree of autonomy
 
 **Life situation alignment:** Consider personal constraints:
-- **Security**: [YOUR_FINANCIAL_SITUATION_CONTEXT]
-- **Flexibility**: [YOUR_SCHEDULE_CONSTRAINTS]
-- **Professional development**: [YOUR_GROWTH_PRIORITIES]
+- **Security**: currently employed (Blaze Digital Solutions); wide-net search means no urgent pressure to accept the first offer *[inferred]*
+- **Flexibility**: open to onsite or remote; needs visa sponsorship for onsite-abroad roles
+- **Professional development**: prioritize roles offering architecture ownership and full-stack growth
 
 ### 6. Salary Benchmark (Optional)
 
@@ -149,6 +152,14 @@ Present the evaluation as:
 - **Moderate Fit** (45-59): Consider carefully, discuss with user
 - **Weak Fit** (30-44): Probably skip unless strategic reasons
 - **Poor Fit** (<30): Skip
+
+## Personal Apply Strategy (Candidate-Specific)
+This candidate runs a **wide net**: APPLY to anything scoring **~50 and above** (Moderate Fit and above), including:
+- International **remote** roles (any country / worldwide)
+- Onsite/hybrid abroad **with visa sponsorship or relocation**
+- All **Bangladesh** roles (onsite, hybrid, remote - any city)
+
+**Only skip** roles below ~50, or onsite/hybrid-abroad roles with **no visa sponsorship and no relocation** (the one location deal-breaker).
 
 ## Pre-Application: Call the Employer (Best Practice)
 

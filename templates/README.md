@@ -1,6 +1,6 @@
 # Custom Templates
 
-This folder holds user-registered LaTeX templates, managed by the `/add-template` command. The framework works out of the box with its stock templates (moderncv for CVs, `cover.cls` for cover letters) — this folder only gets content when you register your own.
+This folder holds user-registered LaTeX cover-letter templates, managed by the `/add-template` command (the CV is a Google Docs `.docx`, not LaTeX, so it has no entry here). The framework works out of the box with its stock `cover.cls` cover letter template — this folder only gets content when you register your own.
 
 ## Layout
 

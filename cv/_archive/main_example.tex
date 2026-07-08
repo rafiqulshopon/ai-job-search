@@ -1,0 +1,118 @@
+%% Master CV - Muhammad Rafiqul Islam (1-page)
+%% Comprehensive reference, condensed to a single page.
+%%
+%% SETUP: Populated by /setup.
+%% Compile with: lualatex main_example.tex
+%% Target: exactly 1 page. (No \needspace - on a 1-page CV there is no page 2 to orphan to.)
+
+\documentclass[11pt,a4paper,sans]{moderncv}
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+
+% Force both first and last name AND section headings to render in moderncv
+% blue (color1). Name font reduced from 34pt to 30pt to help fit one page.
+\renewcommand*{\firstnamestyle}[1]{{\fontsize{26}{28}\bfseries\upshape\color{color1}#1}}
+\renewcommand*{\lastnamestyle}[1]{{\fontsize{26}{28}\bfseries\upshape\color{color1}#1}}
+\renewcommand*{\sectionstyle}[1]{{\sectionfont\color{color1}#1}}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    pdftitle={Muhammad Rafiqul Islam - CV},
+}
+\usepackage[hmargin=1.3cm, vmargin=1.2cm]{geometry}
+\usepackage{import}
+
+% personal data
+\name{Muhammad Rafiqul}{Islam}
+\address{Mirpur, Dhaka, Bangladesh}{}
+\phone[mobile]{+880 1991 895014}
+\email{rafiqul.dev@gmail.com}
+\extrainfo{\href{https://linkedin.com/in/rafiqulshopon}{LinkedIn}, \href{https://github.com/rafiqulshopon}{GitHub}}
+
+\begin{document}
+
+\makecvtitle
+
+% ============================================================
+%     PROFILE STATEMENT
+% ============================================================
+
+\vspace{2pt}
+\small{Senior Frontend Engineer with 5 years building production React and Next.js apps for SaaS, EdTech, and real-estate platforms serving 10,000+ users. Owns frontend architecture end to end - micro-frontends, state management, GraphQL data layer - and bridges into backend with NestJS and Prisma.}
+
+% ============================================================
+%     CORE COMPETENCIES
+% ============================================================
+
+\section{Core Competencies}
+\vspace{1pt}
+\begin{itemize}
+
+\item \textbf{Frontend}: JavaScript, TypeScript, React.js, Next.js, Redux Toolkit, Zustand, React Query (TanStack), Apollo GraphQL, Tailwind CSS
+
+\item \textbf{Architecture}: Micro-frontends, state management, data-layer design, Webpack build optimization, performance tuning
+
+\item \textbf{Backend (growing)}: NestJS, Prisma, TypeORM, RESTful and GraphQL APIs, PostgreSQL, MongoDB
+
+\item \textbf{Quality \& Practices}: Jest, CI/CD (GitHub Actions), WCAG accessibility (ARIA, keyboard nav), Git, Docker, Agile/Scrum
+
+\end{itemize}
+
+% ============================================================
+%     PROFESSIONAL EXPERIENCE
+% ============================================================
+
+\section{Professional Experience}
+\vspace{1pt}
+\begin{itemize}
+
+\item{\cventry{Feb 2024--Present}{Senior Frontend Engineer}{Blaze Digital Solutions}{Chittagong, BD}{}{\vspace{1pt}
+\begin{itemize}
+    \item Led frontend development for an EdTech platform from the ground up, architecting a micro-frontend structure across 5 core modules.
+    \item Designed the GraphQL data layer (Apollo Client) and tuned Webpack, cutting redundant API calls by 20\% and improving load times.
+    \item Set up Jest unit testing and GitHub Actions CI/CD, and implemented WCAG accessibility (ARIA, keyboard navigation).
+\end{itemize}}}
+
+\item{\cventry{Jul 2022--Jan 2024}{JavaScript Developer}{Gain Solutions Ltd}{Dhaka, BD}{}{\vspace{1pt}
+\begin{itemize}
+    \item Built features for a Norwegian property management platform serving 10,000+ partners, including lease management and a real-time chat module (Pusher).
+    \item Co-led frontend architecture for Payrun (SaaS HRM, 50+ clients) and was sole frontend lead for a support-ticket system managing a team of 5; recognized as Employee of the Month twice.
+\end{itemize}}}
+
+\item{\cventry{Jul 2021--Jun 2022}{Frontend Developer}{Bitwise Lab}{Narayanganj, BD}{}{\vspace{1pt}
+\begin{itemize}
+    \item Delivered 5 client projects across e-commerce and healthcare within an agency team, from initial build through deployment.
+\end{itemize}}}
+
+\end{itemize}
+
+% ============================================================
+%     EDUCATION
+% ============================================================
+
+\section{Education}
+\vspace{1pt}
+\begin{itemize}
+
+\item{\cventry{May 2024--Sep 2026}{M.Sc. in Computer Science \& Engineering (in progress)}{Jahangirnagar University}{Savar, BD}{}{}}
+
+\item{\cventry{Jan 2017--Jun 2021}{B.Sc. in Computer Science \& Engineering}{R. P. Shaha University}{Narayanganj, BD}{}{}}
+
+\end{itemize}
+
+% ============================================================
+%     LANGUAGES & CERTIFICATIONS
+% ============================================================
+
+\section{Languages \& Certifications}
+\vspace{1pt}
+\begin{itemize}
+\item \textbf{Languages}: Bengali (native), English (professional). \textbf{Certifications}: Fundamentals of Backend Engineering; Frontend Developer (React); Next.js From Scratch; JavaScript DSA + LeetCode.
+\end{itemize}
+
+\end{document}

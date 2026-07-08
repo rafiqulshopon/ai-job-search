@@ -3,48 +3,51 @@
 <!-- SETUP: This file is populated by running /setup -->
 <!-- You can use results from PI, DISC, Myers-Briggs, StrengthsFinder, or a self-assessment -->
 
+*[Note: No formal behavioral assessment (PI/DISC/MBTI/StrengthsFinder) was provided. The profile below is INFERRED from the LinkedIn About section. Run a short behavioral Q&A or share formal assessment results to refine the scored drives and confirm the inferences.]*
+
 ## Overview
-[YOUR_NAME]'s behavioral assessment identifies them as a **[PROFILE_TYPE]** pattern. [1-2 SENTENCE_SUMMARY].
+Muhammad Rafiqul Islam's behavioral pattern (inferred) is best described as an **end-to-end owner with cross-stack curiosity**. *[Inferred from LinkedIn About - review before relying on this]* He gravitates toward owning problems across the full stack rather than staying in a narrow lane, which has repeatedly put him into frontend-lead positions.
 
 ## Core Behavioral Drives
 
 | Drive | Level | Meaning |
 |-------|-------|---------|
-| [DRIVE_1] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_2] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_3] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_4] | [LEVEL] | [DESCRIPTION] |
+| Ownership | High | Prefers owning a problem end to end over working in a single lane *[inferred]* |
+| Curiosity / Learning | High | Actively expanding frontend into backend (NestJS, Prisma, GraphQL); "going deeper" *[inferred]* |
+| Initiative / Leadership | High | Steps into frontend-lead roles rather than only executing handed-down work *[inferred]* |
+| Craftsmanship | Moderate-High | Emphasis on architecture, performance, accessibility, testing/CI *[inferred]* |
+
+*[Inferred from LinkedIn About - review before relying on this]*
 
 ## Strongest Behaviors
-- **[BEHAVIOR_1]:** [DESCRIPTION]
-- **[BEHAVIOR_2]:** [DESCRIPTION]
-- **[BEHAVIOR_3]:** [DESCRIPTION]
+- **End-to-end ownership:** *[Inferred]* "owns a problem end to end rather than staying in one lane."
+- **Cross-disciplinary drive:** *[Inferred]* Primarily frontend, but has picked up enough backend to be effective and is actively going deeper.
+- **Initiative / leadership:** *[Inferred]* Has ended up leading frontend efforts on several projects, not just building what is handed over.
+- **Continuous learning:** *[Inferred]* Actively upskilling and finishing an M.Sc. alongside full-time work.
 
 ## How You Work Best
-- [ENVIRONMENT_PREFERENCE_1]
-- [ENVIRONMENT_PREFERENCE_2]
-- [ENVIRONMENT_PREFERENCE_3]
+- *[Inferred]* Roles with broad ownership across the stack rather than siloed ticket execution.
+- *[Inferred]* Environments that let him drive architecture decisions and mentor through code review.
+- *[Inferred]* Teams that value someone who bridges frontend and backend.
 
 ## Growth Areas (frame positively in applications)
-- **[AREA_1]:** [HOW_TO_FRAME_IT_POSITIVELY]
-- **[AREA_2]:** [HOW_TO_FRAME_IT_POSITIVELY]
+- **Backend depth:** *[Inferred]* Currently "going deeper" on backend - frame as active growth (NestJS/Prisma/GraphQL), not a fixed limitation.
+- **Formal assessment:** None on file - consider completing a PI/DISC/etc. to sharpen self-knowledge and interview answers.
 
 ## Mapping to Job Posting Language
 
 When a job posting mentions these keywords, it's a **strong behavioral fit**:
-- [KEYWORD_OR_PHRASE_THAT_MATCHES_YOUR_STYLE]
-- [ANOTHER_KEYWORD]
+- "ownership", "end-to-end", "cross-functional", "own the frontend", "drive architecture", "mentor", "lead" *[inferred]*
 
 When a job posting mentions these, flag as **potential friction** (not deal-breaker):
-- [KEYWORD_OR_PHRASE_THAT_MIGHT_CLASH]
-- [ANOTHER_KEYWORD]
+- Heavily siloed "just implement this ticket" roles with no architecture or design input *[inferred]*
 
 ## Management Style Preferences
-- [WHAT_MANAGEMENT_STYLE_WORKS_FOR_YOU]
-- [WHAT_DOESN'T_WORK]
+- *[Inferred]* Prefers autonomy to own problems; managers who set direction then trust execution.
+- *[To confirm]* Styles that do NOT work - confirm in gap questions.
 
 ## Using This in Applications
-- **Cover letters:** [HOW_TO_WEAVE_IN_BEHAVIORAL_STRENGTHS]
-- **CV:** [WHAT_TO_EMPHASIZE]
-- **Interviews:** [WHAT_STAR_EXAMPLES_TO_USE]
-- **Don't overstate:** [WHAT_NOT_TO_CLAIM]
+- **Cover letters:** *[Inferred]* Lead with end-to-end ownership and concrete frontend-leadership examples.
+- **CV:** Emphasize architecture, ownership, and the bridge into backend.
+- **Interviews:** Use the EdTech, Payrun, and support-ticket STAR candidates to show ownership and leadership.
+- **Don't overstate:** *[Inferred]* Do not claim senior backend expertise - frame backend as an active, growing competency.

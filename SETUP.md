@@ -42,15 +42,22 @@ powershell -ExecutionPolicy Bypass -c "irm https://bun.sh/install.ps1 | iex"
 
 If you prefer a package manager, `winget install Oven-sh.Bun` also works on Windows.
 
-### LaTeX (for compiling CVs and cover letters)
+### CV tooling: python-docx + LibreOffice (the CV is a Google Docs .docx)
 
-Install a LaTeX distribution to compile the generated `.tex` files to PDF:
+The CV is authored in Google Docs and tailored per application as a `.docx`. Install:
+
+- `python-docx`: `pip install python-docx` (the `cv/tailor_docx.py` helper uses it)
+- [LibreOffice](https://www.libreoffice.org/) (macOS: `brew install --cask libreoffice`) — renders the tailored `.docx` to PDF via `soffice --headless --convert-to pdf`. No Word or LaTeX needed for the CV.
+
+### LaTeX (for cover letters only)
+
+The cover letter uses a custom `cover.cls` that requires `xelatex`. Install a LaTeX distribution:
 
 - **Windows:** [MiKTeX](https://miktex.org/download)
-- **macOS:** [MacTeX](https://tug.org/mactex/)
+- **macOS:** [MacTeX](https://tug.org/mactex/) or BasicTeX (`brew install --cask basictex`) + `sudo tlmgr install` the needed packages
 - **Linux:** `sudo apt install texlive-full` or `sudo dnf install texlive-scheme-full`
 
-The CV compiles with `lualatex` (pdflatex often fails on modern MiKTeX installs with `fontawesome5` font-expansion errors). The cover letter compiles with `xelatex` because `cover.cls` requires `fontspec` for its custom Lato/Raleway fonts.
+The cover letter compiles with `xelatex` (cover.cls requires `fontspec` for its custom Lato/Raleway fonts).
 
 ### Optional: pdftotext (for the ATS check)
 
@@ -128,7 +135,7 @@ All three paths produce the same result: fully populated profile files.
 | `04-job-evaluation.md` | Personalized skill match areas and career goals |
 | `05-cv-templates.md` | Profile statement templates for your background |
 | `07-interview-prep.md` | STAR examples from your experience |
-| `cv/main_example.tex` | Your LaTeX CV with actual details |
+| `cv/main_example.docx` | Your Google Docs CV (export from Google Docs) |
 | `search-queries.md` | Job search queries for `/scrape` |
 
 ### Re-running setup
@@ -177,23 +184,23 @@ Claude will:
 4. Have a reviewer agent critique the drafts
 5. Revise and present the final output
 
-## 7. Compile your documents
+## 7. Render your documents
 
-After `/apply` creates the LaTeX files:
+After `/apply` creates the CV (`.docx`) and cover letter (`.tex`):
 
 ```bash
 # Bash / zsh / Git Bash
-cd cv && lualatex main_<company>.tex && cd ..
+soffice --headless --convert-to pdf --outdir cv cv/main_<company>.docx
 cd cover_letters && xelatex cover_<company>_<role>.tex && cd ..
 ```
 
 ```powershell
 # PowerShell
-Set-Location cv; lualatex main_<company>.tex; Set-Location ..
+soffice --headless --convert-to pdf --outdir cv cv/main_<company>.docx
 Set-Location cover_letters; xelatex cover_<company>_<role>.tex; Set-Location ..
 ```
 
-These commands apply to the stock templates (moderncv CV, `cover.cls` cover letter). If you'd rather use your own LaTeX template, run `/add-template` — it captures the template's compile engine, fonts, style rules, and page limit, test-compiles it, and wires it into `/apply`. See the "LaTeX templates" section in the README.
+The CV renders via LibreOffice (no LaTeX); the cover letter compiles via `xelatex` (stock `cover.cls`). For a custom cover-letter LaTeX template, run `/add-template` — it captures the template's compile engine, fonts, style rules, and page limit, test-compiles it, and wires it into `/apply`. See the "Templates" section in the README.
 
 ## Troubleshooting
 
@@ -203,10 +210,9 @@ This is expected if you haven't set up salary benchmarking. The `/apply` workflo
 ### Job search CLI tools not working
 Make sure Bun is installed and you ran `bun install` in each CLI directory. The tools require network access to fetch job listings.
 
-### LaTeX compilation errors
-- CV: uses `lualatex` (pdflatex often fails on modern MiKTeX with `fontawesome5` font-expansion errors; lualatex handles the same sources cleanly)
-- Cover letter: uses `xelatex` (for custom fonts in `OpenFonts/fonts/`)
-- Make sure your LaTeX distribution includes the `moderncv` package
+### Document rendering errors
+- CV: rendered via LibreOffice (`soffice --headless --convert-to pdf`). Make sure LibreOffice is installed and `soffice` is on PATH. Styling issues come from the `tailor_docx.py` edit, not the renderer - re-apply via the helper's section-level operations.
+- Cover letter: compiles via `xelatex` (for custom fonts in `OpenFonts/fonts/`); cover.cls requires `fontspec`.
 
 ### Fonts not found in cover letter
 The cover letter template expects fonts in `cover_letters/OpenFonts/fonts/`. Make sure this directory exists and contains the Lato and Raleway font files.

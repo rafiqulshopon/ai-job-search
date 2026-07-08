@@ -8,7 +8,7 @@ This folder holds your actual career documents. The `/setup` command reads every
 
 ```
 documents/
-├── cv/                          # Your CV files (PDF or LaTeX)
+├── cv/                          # Your CV files (PDF or .docx)
 ├── linkedin/                    # LinkedIn profile export (PDF)
 ├── diplomas/                    # Degree certificates and transcripts
 ├── references/                  # Reference letters
@@ -16,7 +16,7 @@ documents/
 │   └── <company>_<role>/
 │       ├── job_posting.md       # The original job posting (paste as text)
 │       ├── cover_letter.tex     # The cover letter you submitted
-│       ├── cv_draft.tex         # The CV variant you submitted
+│       ├── cv_draft.docx        # The CV variant you submitted
 │       └── outcome.md           # Result + notes (fill in after hearing back)
 └── README.md                    # This file
 ```
@@ -117,7 +117,7 @@ applications/
 
 **`cover_letter.tex`** — The cover letter you actually submitted. Used to extract writing style patterns and structure for `06-cover-letter-templates.md`.
 
-**`cv_draft.tex`** — The CV variant you submitted. Used to extract profile statement styles for `05-cv-templates.md`.
+**`cv_draft.docx`** — The CV variant you submitted. Used to extract profile statement styles for `05-cv-templates.md`.
 
 **`outcome.md`** — Fill this in after the application resolves. Format:
 

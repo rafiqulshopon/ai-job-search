@@ -8,7 +8,7 @@ Follow these steps **exactly in order**. Do not skip steps.
 - Never re-Read a file whose contents are already in your context from an earlier step. If you read it in Step 1, it is still available in Step 2.
 - When dispatching the reviewer agent, pass draft content **inline in the agent prompt** rather than asking the agent to Read files you already have in memory.
 - Run the full verification checklist exactly once, at the end (Step 6). The reviewer focuses on content critique, not verification.
-- Step 5 (compile and inspect PDFs) is mandatory and non-skippable — LaTeX page-break decisions are unpredictable, and `.tex` files that look fine often produce broken PDFs (orphaned entry titles, cover letters spilling to page 2, bullet fonts mismatching).
+- Step 5 (render and inspect PDFs) is mandatory and non-skippable — a `.docx`/`.tex` source that looks fine can render to a broken PDF (CV spilling to page 2, styling broken by a python-docx edit, cover letter to 2 pages, bullet fonts mismatching).
 
 ---
 
@@ -59,16 +59,16 @@ Read only the reference files you do not yet have:
 - `.claude/skills/job-application-assistant/05-cv-templates.md`
 - `.claude/skills/job-application-assistant/06-cover-letter-templates.md`
 
-Also read the most recent existing CV and cover letter files for concrete structural reference (one of each is enough):
-- Read any existing `cv/main_*.tex` file as a LaTeX template reference
-- Read any existing `cover_letters/cover_*.tex` or `cover_letters/Cover_*.tex` file as a template reference
+Also read the most recent existing CV and cover letter for concrete structural reference (one of each is enough):
+- Inspect the master `cv/main_example.docx` (or any existing `cv/main_*.docx`) via `python3 cv/tailor_docx.py read cv/main_example.docx` to see its section structure
+- Read any existing `cover_letters/cover_*.tex` or `cover_letters/Cover_*.tex` file as a LaTeX template reference
 
-### CV (`cv/main_<company>.tex`)
+### CV (`cv/main_<company>.docx`)
 - Always in **English**
-- Follow the moderncv/banking format from `05-cv-templates.md`
+- Build from the master `cv/main_example.docx` using the `cv/tailor_docx.py` helper (python-docx), which preserves the Google Docs styling. See `05-cv-templates.md` for the section-level operations (`copy_master`, `set_profile`, `set_experience_bullets`, `set_skills`).
 - Tailor the profile statement and experience bullets to the specific role
 - Reframe skills and achievements to match job requirements
-- Keep to 2 pages
+- Keep to **1 page**
 
 ### Cover Letter (`cover_letters/cover_<company>_<role>.tex`)
 - **Match the language of the job posting** (Danish posting -> Danish cover letter, English posting -> English cover letter)
@@ -85,7 +85,7 @@ Write both files to disk. Keep the exact text of both drafts in working memory �
 
 ## Step 3: REVIEWER - Research & Critique
 
-Use the **Agent tool** to spawn a `general-purpose` reviewer agent. The reviewer gets a fresh context, so pass the drafts **inline in the prompt** below (do not make the reviewer Read them). Scope the reviewer's file reads to content-critique essentials only — the reviewer does not need the LaTeX template files (`05`, `06`) to critique content, since those govern structural/LaTeX concerns the drafter already applied.
+Use the **Agent tool** to spawn a `general-purpose` reviewer agent. The reviewer gets a fresh context, so pass the drafts **inline in the prompt** below (do not make the reviewer Read them). Scope the reviewer's file reads to content-critique essentials only — the reviewer does not need the template files (`05`, `06`) to critique content, since those govern document structure the drafter already applied.
 
 Replace `<COMPANY>`, `<ROLE>`, `<INSERT_JOB_POSTING_TEXT_HERE>`, `<INSERT_CV_DRAFT_HERE>`, and `<INSERT_COVER_LETTER_DRAFT_HERE>` with actual values before dispatching.
 
@@ -108,12 +108,12 @@ Read these four files — and only these — to ground your critique:
 - `.claude/skills/job-application-assistant/03-writing-style.md`
 - `.claude/skills/job-application-assistant/04-job-evaluation.md`
 
-Do NOT read `05-cv-templates.md` or `06-cover-letter-templates.md` — those govern LaTeX structure the drafter already applied and are not needed for content critique.
+Do NOT read `05-cv-templates.md` or `06-cover-letter-templates.md` — those govern document structure the drafter already applied and are not needed for content critique.
 
 ### 3. Drafts to Review
 Both drafts are provided inline below. Do NOT use the Read tool on the draft files — use these exact texts.
 
-<CV_DRAFT file="cv/main_<COMPANY>.tex">
+<CV_DRAFT file="cv/main_<COMPANY>.docx">
 <INSERT_CV_DRAFT_HERE>
 </CV_DRAFT>
 
@@ -134,7 +134,7 @@ Return your feedback in **two parts**:
 A JSON array of concrete edits the drafter can apply directly without re-reading the files. Each edit is an object:
 ```json
 {
-  "file": "cv/main_<COMPANY>.tex" | "cover_letters/cover_<COMPANY>_<ROLE>.tex",
+  "file": "cv/main_<COMPANY>.docx" | "cover_letters/cover_<COMPANY>_<ROLE>.tex",
   "old_string": "<exact text currently in the draft>",
   "new_string": "<replacement text>",
   "reason": "<one-line rationale: keyword match / company angle / reframing / style>"
@@ -162,44 +162,46 @@ Return Part A and Part B together as a single structured message.
 
 Once the reviewer agent returns its feedback:
 
-1. **Apply Part A (structured edits) directly with the Edit tool.** Do NOT re-read the draft files — you already have them in context from Step 2, and the reviewer's `old_string` values were quoted from that same text. For each edit in the JSON array, call `Edit` with the given `file`, `old_string`, and `new_string`. Skip any whose rationale would require fabricating content.
+1. **Apply Part A (structured edits).** For the **cover letter** (`.tex`), apply each edit directly with the `Edit` tool — you already have the draft in context from Step 2, and the reviewer's `old_string` values were quoted from that text. For the **CV** (`.docx`), the `Edit` tool cannot touch a binary `.docx` — translate each string edit into the matching `tailor_docx.py` operation (profile-text swap → `set_profile`; a bullet reword → `set_experience_bullets`; skills rewrite → `set_skills`) and apply via the helper. Skip any edit whose rationale would require fabricating content.
 2. **Apply Part B (narrative suggestions)** using judgment. These need interpretation, not mechanical replacement. Walk through every Part B category the reviewer returned and address it:
    - **Missed keywords/requirements:** add the keyword or capability where it fits naturally in the CV or cover letter. Prefer the experience bullets (concrete evidence) over the profile statement (abstract claim).
    - **Company/department-specific angles:** weave the reviewer's research into the cover letter opening or motivation paragraph. Verify every company claim via WebFetch/WebSearch before including it — do not trust reviewer research at face value.
    - **Action-oriented reframing:** rewrite passive or generic phrasing (CV profile statement, cover letter opening, bullet leads). Structural weakness that the reviewer flagged without a clean JSON edit lives here.
    - **Tone and style issues:** apply the writing-style-guide fixes (no em-dashes, no cliches, no apologetic hedging, consistent first-person active voice).
-   Use Edit for targeted changes; only re-read a file if an edit fails because the surrounding text has shifted.
+   For the cover letter use `Edit`; for the CV use the `tailor_docx.py` helper. Only re-read a file if an edit fails because the surrounding text has shifted.
 3. Do NOT incorporate any suggestion that would fabricate skills or experience. If a posting requirement is a genuine gap, acknowledge it honestly and frame adjacent experience instead.
 
 After all edits are applied, the two files on disk are the final drafts.
 
 ---
 
-## Step 5: DRAFTER - Compile & Inspect PDFs (MANDATORY)
+## Step 5: DRAFTER - Render & Inspect PDFs (MANDATORY)
 
-**Never skip this step.** The `.tex` files looking fine is not sufficient — LaTeX page-break decisions are unpredictable and commonly produce broken layouts (orphaned job titles separated from their bullets, cover letters spilling to 2 pages, bullet fonts not matching body text). Compile both documents and visually verify the PDFs before presenting.
+**Never skip this step.** The `.docx`/`.tex` source looking fine is not sufficient — rendering can produce broken layouts (CV spilling to page 2, styling broken by a python-docx edit, cover letter to 2 pages, bullet fonts not matching body text). Render/compile both documents and visually verify the PDFs before presenting.
 
-### 5a. Compile
+### 5a. Render / compile
 
 ```bash
-cd cv && lualatex -interaction=nonstopmode main_<company>.tex
-cd ../cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
+# CV: .docx -> PDF via LibreOffice headless (no Word/LaTeX needed)
+soffice --headless --convert-to pdf --outdir cv cv/main_<company>.docx
+# Cover letter: LaTeX -> PDF via xelatex (cover.cls requires fontspec)
+cd cover_letters && xelatex -interaction=nonstopmode cover_<company>_<role>.tex
 ```
 
-- CV uses **lualatex** — pdflatex fails on modern MiKTeX with fontawesome5 font-expansion errors. lualatex handles the same sources cleanly.
-- Cover letter uses **xelatex** — cover.cls requires fontspec.
+- CV uses **LibreOffice** (`soffice --headless --convert-to pdf`) — renders the `.docx` (authored/edited via the `tailor_docx.py` helper / python-docx) to PDF.
+- Cover letter uses **xelatex** — `cover.cls` requires fontspec.
 
-If either compile fails, fix the error and re-compile until clean.
+If either step fails, fix the error and re-run until clean.
 
 ### 5b. Inspect layout
 
 Read both PDFs via the Read tool and verify:
 
 **CV (`cv/main_<company>.pdf`):**
-- [ ] Exactly 2 pages (not 1, not 3)
-- [ ] No orphaned `\cventry` titles — a job/education title line must never sit alone at the bottom of page 1 with its bullets on page 2. This is the most common failure.
-- [ ] Section headings are not isolated at the top of page 2 with only 1-2 lines below
-- [ ] No awkward whitespace gaps
+- [ ] Exactly 1 page (nothing spilled to page 2)
+- [ ] Google Docs styling preserved — fonts, sizes, colors, bullet styles, spacing match the master; no broken/blank paragraphs, no dropped formatting from the python-docx edits
+- [ ] All sections present and in the intended order; no orphaned section headings
+- [ ] No awkward whitespace gaps or layout shifts introduced by the edits
 
 **Cover letter (`cover_letters/cover_<company>_<role>.pdf`):**
 - [ ] Exactly 1 page
@@ -208,11 +210,11 @@ Read both PDFs via the Read tool and verify:
 
 ### 5c. Iterate until clean
 
-If the layout has problems, edit the `.tex` files and recompile. Common fixes (see `05-cv-templates.md` and `06-cover-letter-templates.md` for full details):
+If the layout has problems, fix and re-render. Common fixes (see `05-cv-templates.md` and `06-cover-letter-templates.md` for full details):
 
-- **Orphaned CV entry title:** `\usepackage{needspace}` in preamble, then `\needspace{5\baselineskip}` immediately before the problematic `\cventry`
-- **CV spills to page 3 with only a trailing section:** `\enlargethispage{2-3\baselineskip}` before a late section
-- **Substantial content on page 3:** cut content using **relevance-weighted cutting** (see `05-cv-templates.md` → "Relevance-weighted cutting"). Score each candidate line by (a) relevance to THIS posting's keywords and responsibilities, (b) uniqueness (is it duplicated elsewhere?), (c) narrative load (does the cover letter depend on it?). Cut the lowest-total-score line first, regardless of section. Do NOT mechanically apply a static section-based priority order — an older-role bullet that hits posting keywords is worth more than a recent-role bullet that does not.
+- **CV spills to page 2 (near-miss, 1-2 lines):** trim the profile statement by a line, or tighten the `.docx` margins slightly via the helper. Do NOT shrink fonts below ~10pt to squeeze.
+- **CV spills to page 2 (a whole section):** cut content using **relevance-weighted cutting** (see `05-cv-templates.md` → "Relevance-weighted cutting"). Score each candidate line by (a) relevance to THIS posting's keywords and responsibilities, (b) uniqueness (is it duplicated elsewhere?), (c) narrative load (does the cover letter depend on it?). Cut the lowest-total-score line first, regardless of section. Re-apply the cut via the `tailor_docx.py` helper, then re-render.
+- **CV styling broke (wrong font/size, broken bullet, blank paragraph):** a python-docx edit touched a run/paragraph it shouldn't have. Re-do that edit using the helper's section-level operations (which preserve styles) rather than raw text replacement.
 - **Cover letter itemize breaks compile or uses wrong font:** close `\lettercontent{}` before the list, wrap the list in `{\raggedright\fontspec[Path = OpenFonts/fonts/raleway/]{Raleway-Medium}\fontsize{11pt}{13pt}\selectfont \begin{itemize}...\end{itemize}\par}`
 - **Cover letter spills to 2 pages:** trim using the same relevance-weighted logic. First cut: sentences that restate what a bullet already said. Second cut: a bullet that does not hit posting keywords. Last resort: a bullet that does hit posting keywords. Never reduce geometry or line spacing.
 
@@ -235,11 +237,11 @@ Read the `.txt` file.
 **2. Parseability checks** on the extracted text:
 
 - [ ] **Text extracted at all**, with no garbage runs: no `(cid:NNN)` markers, no `�` replacement characters, no stretches of missing text that are visible in the PDF
-- [ ] **Email and phone survive as literal text.** Icon fonts extract as glyph names (the stock template's contact line extracts as `MOBILE-ALT [+XX ...] • Envelope [your.email@...]`) — that noise is harmless, but the actual address and digits must be present. A contact detail carried only by an icon or a hyperlink target (like the `LinkedIn` link text) is invisible to an ATS; the email must be printed as text.
-- [ ] **Reading order matches the visual order** — section headings appear in the same sequence as on the page, and lines from different sections are not interleaved. The stock banking template is single-column and safe; custom templates registered via `/add-template` with sidebars or multi-column layouts are where this breaks.
+- [ ] **Email and phone survive as literal text.** In a `.docx` CV these are normally plain text (Google Docs doesn't use icon fonts), so they should extract cleanly. The failure mode to watch for is a contact detail carried only by a hyperlink target (e.g. the email as a mailto link with no visible text, or a LinkedIn URL behind link text) — invisible to an ATS. The email address must appear as printed text.
+- [ ] **Reading order matches the visual order** — section headings appear in the same sequence as on the page, and lines from different sections are not interleaved. A single-column `.docx` is safe; a multi-column or text-box-heavy Google Docs layout is where this breaks — flag prominently if so.
 - [ ] **Dates recognizable** — each role and degree has its years present in the extraction.
 
-Failures here are template-level problems: fix them in the `.tex` (e.g. print the email as text rather than icon-only), then re-run 5a–5c and re-extract. If a custom template's layout fundamentally scrambles extraction order, tell the user prominently — they may be trading ATS compatibility for looks.
+Failures here are document-level problems: fix them in the `.docx` via the `tailor_docx.py` helper (e.g. ensure the email is printed as text, not only a hyperlink), then re-render (5a) and re-extract. If the master `.docx`'s layout fundamentally scrambles extraction order, tell the user prominently — they may be trading ATS compatibility for looks.
 
 **3. Keyword coverage.** Reuse the required/preferred keyword list you extracted in Step 1 — do not re-derive it. Match each keyword against the extracted text, **in the posting's language** (a Danish posting's keywords are matched in Danish even though the CV is in English — where the CV legitimately covers the concept in English, count it as synonym-only and note the language difference). Report a table:
 
@@ -256,7 +258,7 @@ Failures here are template-level problems: fix them in the `.tex` (e.g. print th
 
 ### 5e. Clean up build artifacts
 
-After the final clean compile, delete the `.aux`, `.log`, `.out` files (keep the `.tex` and `.pdf`).
+After the final clean render/compile: the CV (`.docx`) produces no auxiliary files — keep `cv/main_<company>.docx` and `.pdf`. For the cover letter, delete the `.aux`, `.log`, `.out` files (keep the `.tex` and `.pdf`).
 
 ---
 
@@ -276,8 +278,8 @@ Summarize 3-5 key decisions made to tailor the application:
 
 ### Files Created
 List the files written:
-- `cv/main_<company>.tex`
-- `cover_letters/cover_<company>_<role>.tex`
+- `cv/main_<company>.docx` (and `cv/main_<company>.pdf`)
+- `cover_letters/cover_<company>_<role>.tex` (and `.pdf`)
 
 Tell the user: "Both files are ready for your review. Open them to check the final output before compiling."
 

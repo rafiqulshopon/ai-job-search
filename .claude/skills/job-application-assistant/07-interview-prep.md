@@ -35,6 +35,50 @@ Keep answers to 1-2 minutes. Be specific. End with what you learned or would do 
 
 <!-- Add more STAR examples as needed. Aim for 4-6 covering different competencies. -->
 
+## STAR Candidates (Complete Manually)
+
+*[Added by /setup from CV/LinkedIn achievements - fill in Situation/Task/Action/Result before using these in interviews.]*
+
+### EdTech platform micro-frontend architecture
+**Source:** CV/LinkedIn - Blaze Digital Solutions (Senior Frontend Engineer)
+**What happened:** Architected an EdTech platform frontend from scratch using a micro-frontend structure across 5 core modules.
+**Why it matters:** Architecture, system design, and "built from the ground up" questions.
+**S/T/A/R stub:**
+- Situation:
+- Task:
+- Action:
+- Result:
+
+### GraphQL data-layer optimization (20% fewer API calls)
+**Source:** CV/LinkedIn - Blaze Digital Solutions
+**What happened:** Designed the GraphQL data layer (Apollo Client) and tuned Webpack, cutting redundant API calls by 20% and improving load times.
+**Why it matters:** Performance optimization, measurable impact, and frontend data-layer design questions.
+**S/T/A/R stub:**
+- Situation:
+- Task:
+- Action:
+- Result:
+
+### Co-leading Payrun (SaaS HRM platform)
+**Source:** CV/LinkedIn - Gain Solutions Ltd (JavaScript Developer)
+**What happened:** Co-led frontend architecture for Payrun, a SaaS HRM platform onboarding 50+ client companies; owned the timeline and leave modules.
+**Why it matters:** Leadership, co-leadership dynamics, SaaS scale, and ownership questions.
+**S/T/A/R stub:**
+- Situation:
+- Task:
+- Action:
+- Result:
+
+### Leading the support-ticket system team (5 developers)
+**Source:** CV/LinkedIn - Gain Solutions Ltd
+**What happened:** Sole frontend lead for a support-ticket management system; managed a team of 5, set up CI/CD + Jest, reported sprint progress to product management; earned Employee of the Month twice.
+**Why it matters:** People management, process (CI/CD, testing), and stakeholder communication questions.
+**S/T/A/R stub:**
+- Situation:
+- Task:
+- Action:
+- Result:
+
 ## Common Tough Questions
 
 ### "Why did you leave [previous company]?"
