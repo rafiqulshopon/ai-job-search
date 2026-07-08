@@ -48,7 +48,14 @@ def _is_section_header(text):
 
 
 def _set_para_text(para, text):
-    """Replace paragraph text while preserving the first run's formatting."""
+    """Replace paragraph text while preserving the first run's formatting.
+
+    Also drops any w:hyperlink elements first: python-docx hides the runs nested
+    inside a hyperlink from para.runs, so without this a rewritten bullet can be
+    left with stale link display text appended (e.g. '...Pusher.property management')."""
+    p = para._p
+    for hl in p.findall(qn("w:hyperlink")):
+        p.remove(hl)
     runs = para.runs
     if runs:
         runs[0].text = text
