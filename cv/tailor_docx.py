@@ -27,6 +27,7 @@ from docx.oxml.ns import qn
 from docx.opc.constants import RELATIONSHIP_TYPE as RT
 from docx.shared import Cm, Pt
 from docx.text.paragraph import Paragraph
+from docx.text.run import Run
 
 ICONS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "_assets")
 
@@ -63,6 +64,51 @@ def _set_para_text(para, text):
             r._element.getparent().remove(r._element)
     else:
         para.add_run(text)
+
+
+def _set_skill_line(para, text):
+    """Replace a SKILLS line keeping the category label bold and the content normal.
+
+    A skill line is 'Category: content'. The master structures each one as a bold
+    category run followed by one or more normal-weight runs. _set_para_text folds the
+    whole line into the first (bold) run, making everything bold; this instead splits
+    on the first colon so only the label stays bold. Font family/size are preserved
+    because existing runs are edited in place (the first run cloned for the content
+    when the line was a single all-bold run)."""
+    p = para._p
+    for hl in p.findall(qn("w:hyperlink")):
+        p.remove(hl)
+    runs = para.runs
+    if not runs:
+        para.add_run(text)
+        return
+    label, sep, after = text.partition(":")
+    if not sep:
+        # No colon: treat the whole line as the (bold) label.
+        runs[0].text = text
+        runs[0].bold = True
+        for r in runs[1:]:
+            r._element.getparent().remove(r._element)
+        return
+    label = label.rstrip()
+    rest = ":" + after  # keep the original spacing after the colon
+    # Bold category label in the first run.
+    first = runs[0]
+    first.text = label
+    first.bold = True
+    # Normal-weight content in the second run (clone the first if there is only one).
+    if len(runs) >= 2:
+        second = runs[1]
+        second.text = rest
+        second.bold = False
+        for r in runs[2:]:
+            r._element.getparent().remove(r._element)
+    else:
+        new_r = copy.deepcopy(first._element)
+        first._element.addnext(new_r)
+        second = Run(new_r, para)
+        second.text = rest
+        second.bold = False
 
 
 def _run_hint(para):
@@ -111,23 +157,23 @@ def _delete_paragraph(para):
     para._element.getparent().remove(para._element)
 
 
-def _clone_after(template_para, after_para, text):
+def _clone_after(template_para, after_para, text, setter=_set_para_text):
     """Clone template_para's <w:p> (keeps list style + formatting), insert after after_para, set text."""
     new_p = copy.deepcopy(template_para._p)
     after_para._p.addnext(new_p)
     new_para = Paragraph(new_p, template_para._parent)
-    _set_para_text(new_para, text)
+    setter(new_para, text)
     return new_para
 
 
-def _replace_block(paras, template_para, old_block, new_texts, start_anchor):
+def _replace_block(paras, template_para, old_block, new_texts, start_anchor, setter=_set_para_text):
     """Replace old_block (list of paragraphs) with new_texts, cloning template_para for extras.
 
     start_anchor is the paragraph before old_block (insertion point for clones)."""
     # 1. Set text on existing block paragraphs (up to min length)
     n_old, n_new = len(old_block), len(new_texts)
     for i in range(min(n_old, n_new)):
-        _set_para_text(old_block[i], new_texts[i])
+        setter(old_block[i], new_texts[i])
     # 2. If fewer new texts -> delete extra old paragraphs
     if n_new < n_old:
         for p in old_block[n_new:]:
@@ -136,7 +182,7 @@ def _replace_block(paras, template_para, old_block, new_texts, start_anchor):
     elif n_new > n_old:
         anchor = old_block[-1] if old_block else start_anchor
         for extra in new_texts[n_old:]:
-            anchor = _clone_after(template_para, anchor, extra)
+            anchor = _clone_after(template_para, anchor, extra, setter=setter)
 
 
 # ---------- block collectors ----------
@@ -306,7 +352,7 @@ def cmd_set_skills(args):
     if not body:
         sys.exit("no skills lines found under SKILLS")
     new_texts = [s.strip() for s in args.items.split("|") if s.strip()]
-    _replace_block(paras, body[0], body, new_texts, paras[idx])
+    _replace_block(paras, body[0], body, new_texts, paras[idx], setter=_set_skill_line)
     doc.save(args.path)
     print(f"set {len(new_texts)} skills lines (was {len(body)})")
 
